@@ -96,7 +96,7 @@ az keyvault create -n your-kv-name -g $RESOURCE_GROUP -l eastus
 
 Now navigate to the key-vault you created earlier from the azure portal :arrow_right: Certificates :arrow_right: Generate/Import
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 Provide your host domain name under "Subject". Add the monitoring URL that you are planning to use with Grafana under `DNS names`.
 
@@ -108,13 +108,13 @@ Navigate to AKS cluster :arrow_right: Go to Services and Ingresses
 
 Select the service (in this case `prometheus-grafana`) and select `Add ingress`. Note the `Nginx` service which is exposed as a LoadBalancer and its `ExternalIP`.
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 Add the certificate details (key vault and the certificate) which were created earlier.
 
 Add the hostname for this service as shown below. As described above, I'm using a hosted domain so I have selected the DNS provider as a "3rd Party Provider".
 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 The ingress resource will be created as follows.
 
@@ -149,7 +149,7 @@ spec:
 
 Now log into the DNS management section in your Domain provider. Add an `A record` indicating the public IP address obtained above (ExternalIP address of Nginx Service).
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 In the value section you need to provide the IP address.
 
@@ -160,12 +160,12 @@ Now log into the Grafana using the URL (<https://monitoring.nadeeshachathumal.on
 
 Since we have generated a self-signed certificate for our domain, the following warning will be received.
 
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 Click on 'Proceed' to move forward and you will be directed to the Grafana login page.
 
 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 Obtain the Grafana credentials using the following commands.
 
@@ -192,18 +192,18 @@ Save the output of this command. It will be required in the following steps.
 
 you can even verify the status of the role assignment.
 
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 
 ## Create Azure Monitor Data Source
 
 Go to the configuration panel and select data sources. You will see some datasources are already there, which were detected automatically may be due to the endpoints being in the same namespace.
 
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 
 Following datasources are already there.
 
-![alt text](image-13.png)
+![alt text](images/image-13.png)
 
 **In addition to monitoring 'AKS metrics' you will be able to monitor other Azure resources as well. Ex: Key vaults, Networks etc.** To do that we need to add "Azure monitor" as a data source.
 
@@ -211,26 +211,26 @@ Since we selected the scope as the 'Resource Group' level while creating the ser
 
 In the "data sources" tab :arrow_right: Select "Add new datasource" :arrow_right: Search for "Azure Monitor"
 
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 
 Provide the output details obtained [here](#create-a-service-principal-and-assign-role)
 
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 Select the `Dashboards` section as seen in the above image and import 
 **"Azure Monitor / Container Insights / Syslog"**.
 
-![alt text](image-11.png)
+![alt text](images/image-11.png)
 
 ## View the metrics in the dashboards
 
 After adding the data source is successful, you can navigate to the dashboards section and you will find several dashboards including the imported one in the earlier step.
 
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 
 Select a dashboard to view metrics.
 
-![alt text](image-12.png)
+![alt text](images/image-12.png)
 
 ## Clean up the resources
 
