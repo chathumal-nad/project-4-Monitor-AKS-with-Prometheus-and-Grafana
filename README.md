@@ -30,15 +30,22 @@ SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 
 az group create -l eastus -n $RESOURCE_GROUP
 
-az aks create --name $CLUSTER_NAME -g $RESOURCE_GROUP --tier free --node-count 1 --node-vm-size Standard_B2s --network-plugin azure   --load-balancer-sku basic --node-osdisk-size 30 --enable-cluster-autoscaler --max-count 5 --min-count 1  --enable-addons azure-keyvault-secrets-provider  web_application_routing
+RESOURCE_GROUP="grafana"
+CLUSTER_NAME="grafana"
+SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+
+
+az group create -l eastus -n $RESOURCE_GROUP
+
+az aks create --name $CLUSTER_NAME -g $RESOURCE_GROUP --tier free --node-count 1 --node-vm-size Standard_B2s --network-plugin azure   --load-balancer-sku basic --node-osdisk-size 30 --enable-cluster-autoscaler --max-count 5 --min-count 1  --enable-addons azure-keyvault-secrets-provider,web_application_routing
 ```
-> You might need to add the extension `aks-preview` before running the following commands.
+> You might need to add the extension `aks-preview` before running the above command.
 
 ```
 az extension add --upgrade -n aks-preview
 ```
 
-Enable the addons:
+To enable the addons in an existing cluste:
 ```
 az aks addon enable --name $CLUSTER_NAME -g $RESOURCE_GROUP --addon  web_application_routing
 
